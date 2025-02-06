@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Cobro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .page {
+            width: 210mm;
+            height: 297mm;
+            margin: auto;
+            background-color: white;
+            
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .card {
+            width: 100%;
+            background-color: #e0f8e0;
+            border: 1px solid #a5d6a5;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 15px;
+        }
+        .section label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .table th, .table td {
+            border: 1px solid #a5d6a5;
+            text-align: center;
+            padding: 5px;
+            font-size: 12px;
+        }
+        .table th {
+            background-color: #c8e6c9;
+            font-weight: bold;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f1f8f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="card">
+         
+
+            <div class="section" style="display:flex;border:1px solid grey;border-radius: 3px;">
+                <div style="width:50%;display:flex">
+                    <div style="display:flex;height:40px; flex-direction: column;border:1px solid grey; width:33%;text-align: center;">
+                        <span style="background-color: black;color:white">AÑO</span>
+                        <span></span>
+                    </div>
+                    <div style="display:flex; flex-direction: column;border:1px solid grey; width:33%;text-align: center;">
+                        <span style="background-color: black;color:white">MES</span>
+                        <span></span>
+                    </div>
+                    <div style="display:flex; flex-direction: column;border:1px solid grey; width:33%;text-align: center;">
+                        <span style="background-color: black;color:white">DIA</span>
+                        <span></span>
+                    </div>
+
+                </div>
+                <div style="width:50%">
+                    <h2 style="padding:0; margin:0">$</h2>
+                </div>
+            </div>
+
+            <div class="section" style="padding: 2px;display:flex;height: 40px;border:1px solid grey;border-radius: 3px;">
+                <label>SEÑOR:</label>
+               
+            </div>
+
+            <div class="section" style="padding: 2px;display:flex;height: 40px;border:1px solid grey;border-radius: 3px;">
+                <label>DIRECCIÓN:</label>
+            </div>
+
+            <div class="section" style="padding: 2px;display:flex;height: 40px;border:1px solid grey;border-radius: 3px;">
+                <label>BARRIO:</label>
+            </div>
+
+            <div style="display:flex">
+                <div class="section" style="width: 50%;padding: 2px;display:flex;height: 40px;border:1px solid grey;border-radius: 3px;">
+                    <label>TEL./CEL.:</label>
+                </div>
+    
+                <div class="section" style="padding: 2px;width: 50%;display:flex;height: 40px;border:1px solid grey;border-radius: 3px;">
+                    <div style="display: flex; flex-direction: column;">
+                        <label style="background-color: black; text-align: center; color:white;" >CUOTA DIARIA</label>
+                        <p style="padding: 0; margin: 0;">$</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display:flex;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>FECHA</th>
+                            <th>ABONO</th>
+                            <th>SALDO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Generar 30 filas -->
+                        <script>
+                            for (let i = 1; i <= 15; i++) {
+                                document.write(`
+                                    <tr>
+                                        <td>${i}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                `);
+                            }
+                        </script>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>FECHA</th>
+                            <th>ABONO</th>
+                            <th>SALDO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Generar 30 filas -->
+                        <script>
+                            for (let i = 16; i <=30 ; i++) {
+                                document.write(`
+                                    <tr>
+                                        <td>${i}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                `);
+                            }
+                        </script>
+                    </tbody>
+                </table>
+
+            </div>
+            <div style="display:flex; flex-direction:column;align-items: end;height:60px;border:1px solid grey;border-radius: 3px;">
+                <p></p>
+                <hr style="width:100%;border:1px solid grey ;margin-bottom: 5px;">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
