@@ -37,6 +37,7 @@ const Loan= () => {
   const [expired,setExpired] = useState([])
   const [totalPayments,settotalPayments] = useState(0)
   const [gains, setGains] = useState(0);
+  const [netGains, setNetGains] = useState(0);
   const [payed, setPayed] = useState(0);
   const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(6);
@@ -54,18 +55,19 @@ const Loan= () => {
 
       //await window.sqlite.query("UPDATE payments  set payment_date='2025-01-29' WHERE id=388")
       const ex = await paymentsModel.getExpiredPayments(loanId);
-      console.log(ex ? ex.length : 0)
+     
       setExpired(ex ? ex.length : 0)
 
-      setGains(await loansModel.getGainsLoan(loanId))
+      const gainsQuery=await loansModel.getGainsLoan(loanId)
+      setGains(gainsQuery.gains)
 
-      
+      setNetGains(gainsQuery.netas)
       const data = await loansModel.getLoan(loanId)
-      console.log(data)
+      
       setLoan(data[0])
       
      
-      console.log(loan)
+      
 
       const payments = await paymentsModel.getLoansPayments(loanId,{
         page,
@@ -84,7 +86,7 @@ const Loan= () => {
       
         setPayed(payedPayments.total_paid_payments)
 
-        console.log(payedPayments.total_paid_payments)
+      
       }
 
 
@@ -105,7 +107,7 @@ const Loan= () => {
   }, [limit,page,filter])
 
 
-  console.log('Loan state in render:', loan); // Aquí se imprimirá el valor más actualizado
+ // console.log('Loan state in render:', loan); // Aquí se imprimirá el valor más actualizado
 
 
   function setState(state){
@@ -138,11 +140,13 @@ const Loan= () => {
         setPayed,
         gains,
         setGains,
+        netGains,
+        setNetGains,
         setState,
         expired,setExpired
       }
     }>
-        {console.log("LoanContext value", { payments, loan, payed, gains, expired })}
+       
 
      <Breadcrumb pageName="Prestamo" />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -165,9 +169,6 @@ const Loan= () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Ganancia actual" total={"$"+Intl.NumberFormat('de-DE').format(gains)} rate="0.0%" levelUp>
-         <MoneyBag></MoneyBag>
-        </CardDataStats>
         <CardDataStats title="Pagos Vencidos" total={expired} rate="0.0%" levelDown>
           <svg
             className="fill-primary dark:fill-white"
@@ -186,6 +187,13 @@ const Loan= () => {
               fill=""
             />
           </svg>
+        </CardDataStats>
+        <CardDataStats title="Ganancia actual" total={"$"+Intl.NumberFormat('de-DE').format(gains)} rate="0.0%" levelUp>
+         <MoneyBag></MoneyBag>
+        </CardDataStats>
+        
+        <CardDataStats title="Dinero Recaudado" total={"$"+Intl.NumberFormat('de-DE').format(netGains)} rate="0.0%" levelUp>
+         <MoneyBag></MoneyBag>
         </CardDataStats>
         
       </div>
@@ -260,7 +268,7 @@ export const LoanCard = ({loan,id}) => {
 
   const {amount,installments,aproved_date:date,state,label,nickname,client_id} = loan
 
-  console.log(loan)
+  
  
   const navigate = useNavigate()
   
@@ -318,7 +326,7 @@ export const LoanCard = ({loan,id}) => {
                  onClick={async()=>{
                   
                   try {
-                    console.log(id)
+                   
                     await loansModel.deleteLoan(id)
   
                     navigate(-1) 

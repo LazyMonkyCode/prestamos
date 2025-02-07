@@ -1,6 +1,68 @@
 import React from "react";
 
 
+export function Payment10(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 14 14"
+      width="1em"
+      height="1em"
+      {...props}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M7 11.5v2m2.5-3v2m-5-2v2M2.75 4.75a.25.25 0 0 1 0-.5m0 .5a.25.25 0 0 0 0-.5m8.5.5a.25.25 0 1 1 0-.5m0 .5a.25.25 0 1 0 0-.5m-3.186-.861a.83.83 0 0 0-.786-.556h-.645a.744.744 0 0 0-.16 1.47l.983.216a.834.834 0 0 1-.178 1.648h-.556a.83.83 0 0 1-.786-.556M7 2.833V2m0 5v-.833"></path>
+        <path d="M12.5.5h-11a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1"></path>
+      </g>
+    </svg>
+  )
+}
+
+
+export function PersonMinus(props) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="1em"
+      height="1em"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M10 16c2.69 0 5.77 1.28 6 2H4c.2-.71 3.3-2 6-2"
+        opacity=".3"
+      ></path>
+      <circle cx="10" cy="8" r="2" fill="currentColor" opacity=".3"></circle>
+      <path
+        fill="currentColor"
+        d="M14 8c0-2.21-1.79-4-4-4S6 5.79 6 8s1.79 4 4 4s4-1.79 4-4m-2 0c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2M2 18v2h16v-2c0-2.66-5.33-4-8-4s-8 1.34-8 4m2 0c.2-.71 3.3-2 6-2c2.69 0 5.77 1.28 6 2zm13-8h6v2h-6z"
+      ></path>
+    </svg>
+  )
+}
+
+export const DebtorIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+    <circle cx="32" cy="32" r="28" stroke="black" strokeWidth="2" fill="none" />
+    <circle cx="32" cy="24" r="8" stroke="black" strokeWidth="2" fill="none" />
+    <line x1="32" y1="32" x2="32" y2="44" stroke="black" strokeWidth="2" />
+    <line x1="28" y1="44" x2="36" y2="44" stroke="black" strokeWidth="2" />
+    <line x1="28" y1="44" x2="28" y2="50" stroke="black" strokeWidth="2" />
+    <line x1="36" y1="44" x2="36" y2="50" stroke="black" strokeWidth="2" />
+    <path d="M 24 18 C 24 15 28 12 32 12 C 36 12 40 15 40 18" stroke="black" strokeWidth="2" fill="none" />
+    <line x1="28" y1="20" x2="30" y2="22" stroke="black" strokeWidth="2" />
+    <line x1="36" y1="20" x2="34" y2="22" stroke="black" strokeWidth="2" />
+  </svg>
+);
+
+
+
 export function Eye(props) {
   return (
     <svg

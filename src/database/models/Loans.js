@@ -320,11 +320,13 @@ async  getClientLoans(id){
   
     try {
         //await window.sqlite.query("INSERT INTO clients (nickname) VALUES ('chango12') ");
-        const r = await window.sqlite.query("SELECT SUM(gains) as gains from payments WHERE loan_id='"+id+"'AND state='payed';");
+        const r = await window.sqlite.query("SELECT SUM(gains) as gains ,SUM(net_amount) as netas from payments WHERE loan_id='"+id+"'AND state='payed';");
         
       //  console.log(r)
-      if(r) return r[0].gains
-      
+      if(r) return {
+        gains:r[0].gains,
+        netas:r[0].netas
+      }
       else return 0
   
     } catch (error) {

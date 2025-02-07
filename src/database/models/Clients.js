@@ -7,9 +7,9 @@ class Clients{
     }
 
 
-  async getClientsDebtors(params) {
+  async getClientsDebtors() {
     
-    const query=`SELECT clients.id AS clientId, 
+   /*  const query=`SELECT clients.id AS clientId, 
        clients.nickname, 
        COUNT(payments.id) AS totalExpiredPayments,  -- Cuenta los pagos vencidos
        SUM(payments.amount) AS totalExpiredAmount,  -- Suma de los montos de los pagos vencidos
@@ -23,8 +23,21 @@ class Clients{
       AND strftime('%Y-%m', payments.payment_date) = strftime('%Y-%m', 'now')  -- Pagos de este mes
       GROUP BY clients.id  -- Agrupa por cliente para contar los pagos vencidos por cliente
       ORDER BY totalExpiredPayments DESC;  -- Ordena por el número total de pagos vencidos`
-        
-      
+         */
+    
+   /*    const query=`SELECT DISTINCT c.*
+FROM clients c
+JOIN loans l ON c.id = l.client_id
+JOIN payments p ON l.id = p.loan_id
+WHERE p.state = 'expired';` */
+
+const query=`SELECT
+    COUNT(DISTINCT CASE WHEN p.state = 'expired' THEN c.id END) AS expired_clients_count,
+    COUNT(DISTINCT CASE WHEN p.state = 'incomplete' THEN c.id END) AS incomplete_clients_count
+FROM clients c
+JOIN loans l ON c.id = l.client_id
+JOIN payments p ON l.id = p.loan_id
+WHERE p.state IN ('expired', 'incomplete');`
     return await window.sqlite.query(query);
     
     }

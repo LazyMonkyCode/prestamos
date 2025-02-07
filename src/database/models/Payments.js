@@ -138,6 +138,8 @@ async  getPayments(id,{limit,page},filter){
 
 async editPayment(id,data){
 
+
+  console.log(data)
    const current = await this.getPaymentById(id)
 
   //console.log("Asdasd12312")
@@ -148,6 +150,11 @@ async editPayment(id,data){
       
     } */
     
+     const  payment ={
+      ...current,
+     ...data
+      
+    } 
     
   //console.log("asdasd")
     //console.log(payment)
@@ -489,7 +496,7 @@ return result
 async insertPayments(data,dates){
         
  
-      //console.log(data)
+      console.log(dates)
        
       const {date,amount,interes,installments,interval,loanId,id} = data
        // const loan_id = await window.sqlite.query("SELECT id FROM loans ORDER BY id DESC LIMIT 1")
@@ -516,8 +523,8 @@ async insertPayments(data,dates){
             let ndate
           if(interval=="custom" && dates){
             
-        
-            // ndate= dates[index]
+            console.log("fechas "+dates[index])
+             ndate= dates[index]
           
           }
            else{

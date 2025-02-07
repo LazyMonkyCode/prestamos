@@ -12,6 +12,7 @@ import Pagination from "../../components/Pagination";
 import {AddClientModal} from "./AddClientModal.jsx"
 import clientsModel from '../../database/models/Clients.js';
 import Select from '../../components/Forms/SelectGroup/Select.jsx';
+import { DebtorIcon, Payment10, PersonMinus } from '../../components/Icons.jsx';
 const ClientsContext = createContext()
 
 
@@ -26,14 +27,21 @@ const Clients= () => {
   const [search, setSearch] = useState("");
   const [totalPages,setTotalPages] = useState(1);
   const [filter, setFilter] = useState("");
-
+  const [debtors,setDebtors]= useState(0)
+  const [incomplete,setIncomplete]= useState(0)
   const [totalResults, setTotalResults] = useState(0)
 
 
   useEffect(()=>{
 
     const fetchData = async()=>{
-      
+
+
+      const debtorsQuery = await clientsModel.getClientsDebtors()
+
+      console.log(debtorsQuery[0].expired_clients_count)
+      setDebtors(debtorsQuery[0].expired_clients_count)
+      setIncomplete(debtorsQuery[0].incomplete_clients_count)
       const result  =await clientsModel.getClients({
         nickname:search,
         state:filter
@@ -107,55 +115,125 @@ const Clients= () => {
             />
           </svg>
         </CardDataStats>
+        <CardDataStats title="Clientes Deudores" total={debtors} rate={0} levelUp>
+         <PersonMinus width="30" height="30"></PersonMinus>
+        </CardDataStats>
+        <CardDataStats title="Clientes Pagos Incompltos" total={incomplete} rate={0} levelUp>
+          <Payment10 width="30" height="30" />
+        </CardDataStats>
      
       </div>
 
     
   
       <AddClientModal addClient={addClient} ></AddClientModal>
+
+
+        <div className='mt-4 grid grid-cols-1  bg-white p-5'>
+          <div className='flex justify-between  items-center'>
+            <div>
+              <input
+                type="text"
+                placeholder="Buscar..."
+                className=" pt-3 pb-3 pl-3 pr-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={search}
+                onChange={(e) => {
+
+                  console.log("asd")
+                  setSearch(e.target.value)
+                }}
+              />
+            </div>
+
+            <div>
+              <Select className=""
+                onChange={async (e) => setFilter(e.target.value)}
+                options={[{
+                  label: "filtro Prestamos",
+                  value: "",
+                  selected: true
+                },
+                {
+
+                  label: "Sin prestamos",
+                  value: "expired",
+                  selected: false
+                },
+
+                {
+
+                  label: "activos",
+                  value: "incomplete",
+                  selected: false
+                },
+
+                {
+
+                  label: "completados",
+                  value: "incomplete",
+                  selected: false
+                },
+
+                {
+
+                  label: "cancelados",
+                  value: "incomplete",
+                  selected: false
+                },
+
+                
+
+
+                ]}>
+
+              </Select>
+
+            </div>
+            <div>
+              <Select className=""
+                onChange={async (e) => setFilter(e.target.value)}
+                options={[{
+                  label: "filtro Cuotas",
+                  value: "",
+                  selected: true
+                },
+                {
+
+                  label: "vencidas",
+                  value: "expired",
+                  selected: false
+                },
+
+                {
+
+                  label: "c. incompletas",
+                  value: "incomplete",
+                  selected: false
+                },
+
+                
+
+
+                ]}>
+
+              </Select>
+
+            </div>
+
+            <Pagination currentPage={page} totalPages={totalPages} changePage={changePage}></Pagination>
+
+          </div>
+
+
+        </div>
+      
       <div className="mt-4 grid grid-cols-1 gap-1 bg-white p-5">
+
+
 
       <div className="grid grid-cols-2 xs:grid-cols-1 mb-5">
 
-      <div className=''>
-        <input 
-                  type="text"
-                  placeholder="Buscar..."
-                  className="w-1/2 h-10  p-2 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={search}
-                  onChange={(e) => {
-
-                    console.log("asd")
-                    setSearch(e.target.value)
-                  }}
-                />
-                <Select  className="w-1/2"
-          onChange={async (e)=>setFilter(e.target.value)} 
-          options={[{
-            label:"filtro",
-            value:"",
-            selected:true
-          },
-          {
-
-            label:"Deudores",
-            value:"expired",
-            selected:false
-          },
-         
-          {
-
-            label:"p. incompletos",
-            value:"incomplete",
-            selected:false
-          },
-          
-           
-          ]}>
-
-          </Select>
-      </div>
-
+      
 
       
       {/* <div className='col-span-2'>
@@ -178,12 +256,6 @@ const Clients= () => {
               />
         </div> */}
       
-        <div className=''>
-        
-          <Pagination currentPage={page} totalPages={totalPages} changePage={changePage}></Pagination>
-          
-        </div>
-        
      
       </div>
           <ClientList clients={ clients}/> 

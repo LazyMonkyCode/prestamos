@@ -55,7 +55,7 @@ export const PaymentCard = ({ payment }) => {
   const { updatePayments, payments } = useLoans()
   //console.log(payment)
   const { setNotification, showNotification } = useNotification()
-  const { amount, payment_date: date, id, label, state } = payment
+  const { amount, payment_date: date, id, label, state,payed_date } = payment
 
   function stateLabel(state) {
     if (state == "payed") return "Pagado"
@@ -65,6 +65,7 @@ export const PaymentCard = ({ payment }) => {
   }
 
 
+  
   const payPayment=async (e) => {
 
     await paymentsModel.payPayment(id)
@@ -236,6 +237,14 @@ export const PaymentCard = ({ payment }) => {
 
 
         <StateTag state={state}></StateTag>
+
+        {
+          payed_date ? 
+          
+          new Date(payed_date)< new Date(date) ? (<Tag type={"success2"}  title={`Pagada el (${payed_date})  adelantado a la fecha de pago`} label={"P. adelan.."}></Tag>)
+          : new Date(payed_date)> new Date(date) ? (<Tag title={"Pagada el ("+payed_date+") Fuera de fecha de pago"} type={"danger2"} label={"P. Atras.."}></Tag>) : (<Tag title="Pagada dentro de la fecha de pago" type={"success3"} label={"P. en fecha"}></Tag>)
+          :(<></>)
+        }
 
         {/* {state=="expired"? payed_date!=null ?  (): ""} */}
 

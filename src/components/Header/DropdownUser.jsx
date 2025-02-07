@@ -110,7 +110,7 @@ const DropdownUser = () => {
                     fill=""
                   />
                 </svg>
-                App Configuraicion
+                Configuraciones
               </Link>
             </li>
           </ul>
@@ -132,7 +132,7 @@ const DropdownUser = () => {
                 fill=""
               />
             </svg>
-            Log Out
+            Salir
           </button>
         </div>
       )}

@@ -23,6 +23,7 @@ import Notification from './components/Notifications.jsx';
 import Error404 from './404.jsx';
 import Profile from './pages/Profile/index.jsx';
 
+
 function App() {
   const [loading, setLoading] = useState(true);
   const { pathname } = useLocation();

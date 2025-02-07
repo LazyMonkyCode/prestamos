@@ -357,38 +357,40 @@ const Step4 = ({ setLoans }) => {
 
         const loan = await loansModel.insertLoan(formData)
 
-        console.log(formData)
+        //console.log(formData)
 
-        if(formData.pagos.value == "custom") console.log("asdasd")
-        await paymentsModel.insertPayments({
-          amount: formData.monto.value,
-          installments: formData.cuotas.value,
-          date: formData.fecha.value,
-          interes: formData.interes.value,
-          interval: formData.pagos.value,
-          id: loan.id
-        })
+        if(formData.pagos.value == "custom") nextStep()
+
+        else {
+          await paymentsModel.insertPayments({
+            amount: formData.monto.value,
+            installments: formData.cuotas.value,
+            date: formData.fecha.value,
+            interes: formData.interes.value,
+            interval: formData.pagos.value,
+            id: loan.id
+          })
 
 
 
-        // console.log(insert)
-        setLoans((prev) => [
-          {
-            ...loan,
+          // console.log(insert)
+          setLoans((prev) => [
+            {
+              ...loan,
 
-          },
-          ...prev
-        ])
+            },
+            ...prev
+          ])
 
-        toggleModal();
+          toggleModal();
 
-        setNotification({
-          type: "success",
-          message: "Prestamo agregado con exito"
-        })
+          setNotification({
+            type: "success",
+            message: "Prestamo agregado con exito"
+          })
 
-        showNotification()  
-
+          showNotification()
+        }
 
       } 
 
@@ -445,7 +447,7 @@ const Step5 = ({ setLoans }) => {
     enableNext()
     // Registra el callback para este paso
     registerOnNext(async () => {
-      console.log("Callback ejecutado desde Step1");
+    // console.log("Callback ejecutado desde Step5");
 
       const errors = validate({
         pagos: {
@@ -463,7 +465,7 @@ const Step5 = ({ setLoans }) => {
 
         const loan = await loansModel.insertLoan(formData)
 
-        console.log(formData)
+        console.log(pDates)
 
         await paymentsModel.insertPayments({
           amount: formData.monto.value,
@@ -498,7 +500,7 @@ const Step5 = ({ setLoans }) => {
       }
 
     });
-  }, [registerOnNext]); 
+  }, [registerOnNext,pDates]); 
 
   return (
 
@@ -511,12 +513,12 @@ const Step5 = ({ setLoans }) => {
 
         {
           cuotas.map((e, i) => {
-            return (<div className="mb-4">
+            return (<div key={i} className="mb-4">
               <label className="mb-2.5 block font-medium text-left text-black dark:text-white">
                 Pago numero {i + 1}
               </label>
               <input
-                name="date"
+                name={"date"+i}
                 type="date"
                 placeholder={"fecha del pago " + i + 1}
                 className={`w-full rounded-lg border border-stroke  focus:text-black  bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
@@ -524,7 +526,7 @@ const Step5 = ({ setLoans }) => {
 
                   setPDates((prev) =>prev.map((e, j) =>j == i ? el.target.value : e))
 
-                  //console.log(pDates)
+                  console.log(pDates)
                 } }
                 defaultValue={pDates[i]}
                 value={pDates[i]} />

@@ -43,6 +43,7 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "electron-squirrel-startup": "^1.0.1",
+    "electron-updater": "^6.3.9",
     "jsonwebtoken": "^9.0.2",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",
