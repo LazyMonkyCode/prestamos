@@ -28,7 +28,6 @@ const Dashboard = () => {
   const [monthly,setMonthly] = useState(0)
   const [loansTotalAmount, setloansTotalAmount] = useState(0)
  const [paymentsTotalAmount, setpaymentsTotalAmount] = useState(0)
-
   useEffect(() => {
     
     async function init() {
@@ -44,8 +43,7 @@ const Dashboard = () => {
 
      console.log(loansTotalAmount)
       await paymentsModel.setExpiredPayments()
-      
-
+     
  await window.sqlite.query(`  DELETE FROM loans
 WHERE client_id NOT IN (
     SELECT id

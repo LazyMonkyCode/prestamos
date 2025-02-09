@@ -1,3 +1,4 @@
+import { filterHash } from "@fullcalendar/core/internal"
 import paymentsModel from "./Payments"
 
 class Loans {
@@ -220,8 +221,11 @@ async  getLoan(id){
   
     try {
         //await window.sqlite.query("INSERT INTO clients (nickname) VALUES ('chango12') ");
-        const r = await window.sqlite.query(`SELECT loans.id,loans.amount,loans.installments,loans.state
-          ,loans.gains,loans.label,loans.interes_percentage,loans.payment_interval,loans.client_id,loans.aproved_date
+        const r = await window.sqlite.query(`SELECT loans.id,loans.amount,
+          loans.installments,loans.state
+          ,loans.gains,loans.label,loans.interes_percentage,
+          loans.payment_interval,loans.client_id,
+          loans.aproved_date
           ,clients.id,clients.nickname
           FROM loans
           INNER  JOIN clients ON loans.client_id=clients.id
@@ -279,7 +283,9 @@ async  getClientTotalLoans(id){
       
   
 
-async  getClientLoans(id){
+async  getClientLoans(id,filter){
+
+    const {limit,page} = filter.pagination
   
     //await window.sqlite.query("INSERT INTO clients (nickname) VALUES ('chango12') ");
     const r = await window.sqlite.query(`SELECT  
@@ -300,16 +306,26 @@ async  getClientLoans(id){
     payments ON loans.id = payments.loan_id
 
     WHERE client_id ='${id}'
-
+      ${filter.state ? ` AND loans.state='${filter.state}'`: ''}
     GROUP BY
     loans.id, loans.client_id
     
-    ORDER BY loans.id DESC;
+    
 
-      `);
+    ORDER BY loans.id DESC
+    
+    LIMIT ${limit} OFFSET ${(page-1) * limit}
 
-  console.log(r)
-   return r
+      ;`);
+
+
+    const totalResults  = await window.sqlite.query(`SELECT 
+      count(id) as total FROM loans  WHERE client_id='${id}'  ${filter.state ? ` AND loans.state='${filter.state}'`: ''}`)
+  
+   return {
+    data:r,
+    total:totalResults[0].total
+   }
 
 }
 

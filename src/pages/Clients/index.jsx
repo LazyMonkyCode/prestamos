@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useEffect ,useState} from 'react';
 import CardDataStats from '../../components/CardDataStats.jsx';
-/* import ChartOne from '../../components/Charts/ChartOne';
-import ChartThree from '../../components/Charts/ChartThree';
-import ChartTwo from '../../components/Charts/ChartTwo';
-import ChatCard from '../../components/Chat/ChatCard';
-import MapOne from '../../components/Maps/MapOne';*/
 
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb.jsx';
 import ClientList from './ClientList.jsx';
@@ -13,14 +8,14 @@ import {AddClientModal} from "./AddClientModal.jsx"
 import clientsModel from '../../database/models/Clients.js';
 import Select from '../../components/Forms/SelectGroup/Select.jsx';
 import { DebtorIcon, Payment10, PersonMinus } from '../../components/Icons.jsx';
-const ClientsContext = createContext()
 
+import { useDispatch, useSelector } from 'react-redux';
+import { add ,edit,remove} from '../../redux/clients'
 
-const useClients =()=>useContext(ClientsContext)
 
 const Clients= () => {
 
-  const [clients,setClients] = useState([])
+ 
   const [totalClients,setTotalClients]= useState(1)
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
@@ -30,7 +25,8 @@ const Clients= () => {
   const [debtors,setDebtors]= useState(0)
   const [incomplete,setIncomplete]= useState(0)
   const [totalResults, setTotalResults] = useState(0)
-
+  const clients = useSelector((state) => state.clients);
+  const dispatch = useDispatch();
 
   useEffect(()=>{
 
@@ -56,7 +52,7 @@ const Clients= () => {
       let totalRows =result.total
       
       setTotalClients(totalRows)
-      console.log(totalClients)
+     // console.log(totalClients)
       if(search.length > 0){
         totalRows = result.length
       }
@@ -86,10 +82,6 @@ const Clients= () => {
 
   return (
     <>
-    <ClientsContext.Provider value={{
-      clients,
-      setClients
-    }}>
       <Breadcrumb pageName="Clientes" />
       <div className="mb-5 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <CardDataStats title="Total Clientes" total={totalResults} rate={0} levelUp>
@@ -118,7 +110,7 @@ const Clients= () => {
         <CardDataStats title="Clientes Deudores" total={debtors} rate={0} levelUp>
          <PersonMinus width="30" height="30"></PersonMinus>
         </CardDataStats>
-        <CardDataStats title="Clientes Pagos Incompltos" total={incomplete} rate={0} levelUp>
+        <CardDataStats title="Clientes Pagos Incompletos" total={incomplete} rate={0} levelUp>
           <Payment10 width="30" height="30" />
         </CardDataStats>
      
@@ -258,9 +250,9 @@ const Clients= () => {
       
      
       </div>
-          <ClientList clients={ clients}/> 
+          <ClientList /> 
       </div>
-      </ClientsContext.Provider>
+     
     </>
   );
 };

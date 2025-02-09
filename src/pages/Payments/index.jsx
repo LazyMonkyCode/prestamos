@@ -33,6 +33,7 @@ const Payments= () => {
       const [limit, setLimit] = useState(15)
       const [totalPages, setTotalPages] = useState(1)
       const [search,setSearch] = useState("")
+  const [totalPayments, settotalPayments] = useState(0)
     
     const [count,setCount] = useState(0)
      
@@ -43,18 +44,27 @@ const Payments= () => {
         const data = await paymentsModel.getTodayPayments(page,limit,search)
        // console.log(data)
         setPayments(data)
+        console.log(data)
         const totalResults = data[0].totalResults
         setTotalPages(limit< totalResults ? 
-          Math.ceilt(totalResults/limit)
+          Math.ceil(totalResults/limit)
         : 1
         )
 
+        const totalPaymentQuery= await window.sqlite.query(`SELECT COUNT(id) as total
+           FROM payments WHERE payment_date=DATE('now','localtime')`)
+
+     settotalPayments(totalPaymentQuery[0].total)
+
+     console.log(totalPaymentQuery[0].total)
         const amount =await  paymentsModel.getAmountSumFromTodaysPaymentsPayed()
 
         setTodayAmount(amount)
       const gainsPayed =await  paymentsModel.getGainsFromTodaysPaymentsPayed()
 
        setTOdayGains(gainsPayed)
+
+       console.log(gainsPayed)
       }
 
       
@@ -96,7 +106,7 @@ const Payments= () => {
       }
     }>
      <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
-        <CardDataStats title="Total de pagos de hoy" total={payments.length} rate="0.43%" levelUp>
+        <CardDataStats title="Total de pagos de hoy" total={totalPayments} rate="0.43%" levelUp>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <path d="M14 7h5a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-5M10 12h4M5 12H4a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h1l3 3h6l3-3h1a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-1" />
 </svg>

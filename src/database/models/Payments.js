@@ -25,7 +25,7 @@ async  getLoansPayments(id,{limit,page},filter){
    
     //console.log(total)
       return {
-         payments:r,
+         data:r,
          total:total[0].total
       }
    
@@ -157,7 +157,7 @@ async editPayment(id,data){
     } 
     
   //console.log("asdasd")
-    //console.log(payment)
+    console.log(payment)
 
    
     //await window.sqlite.query("INSERT INTO clients (nickname) VALUES ('chango12') ");
@@ -169,7 +169,7 @@ async editPayment(id,data){
        label='${payment.label}' ,
        notes='${payment.notes}',
        net_amount='${payment.net_amount}'
-      
+        ${payment.state=="pending" ? ",payed_date=NULL" : ""}
        WHERE id ='${id}'
        
       ; `);
@@ -223,7 +223,7 @@ async editPayment(id,data){
           //console.log("loan id")
           //console.log(loanId)
   
-      /*  console.log(await window.sqlite.query(`
+       console.log(await window.sqlite.query(`
           UPDATE loans
           SET state = 'completed'
           WHERE id = ${loanId[0].loan_id}
@@ -233,18 +233,20 @@ async editPayment(id,data){
               WHERE loan_id = loans.id 
               AND state != 'payed'
           ) = 0;  
-          `));   */
-          
-/*       const isCompleted =  `SELECT id FROM payments WHERE loan_id = ${loanId[0].loan_id}
+          `));  
+      /*    
+        const isCompleted =  `SELECT id FROM payments WHERE loan_id = ${loanId[0].loan_id}
           AND (
               SELECT COUNT(*) 
               FROM payments 
               WHERE loan_id = loans.id 
               AND state != 'payed'
           ) = 0; `
-    
-        console.log(  await window.sqlite.query(isCompleted))
      */
+     //   console.log(  await window.sqlite.query(isCompleted))
+   
+
+        
   }
 
   async getPaymentsMonthState(month) {
@@ -422,10 +424,6 @@ strftime('%Y-%m-%d', 'now', 'weekday 6')
 
 
 async getWeeksPaymentsState(state,dates){
-
-  
-
-
   //console.log(dates)
   const query=`SELECT
   p.id as payment_id,
@@ -455,8 +453,9 @@ async setExpiredPayments(){
   const start = getMonday(new Date())
   const end = getSunday(new Date())
 
+  console.log(await window.sqlite.query("SELECT DATE('now','localtime') from clients limit 1"))
   const query = `UPDATE payments SET state='expired'
-  WHERE payment_date < DATE('now') AND payed_date IS NULL  AND (state = 'pending' OR state = 'incomplete')
+  WHERE payment_date < date('now','localtime') AND payed_date IS NULL  AND (state = 'pending' OR state = 'incomplete')
    
   
   `
@@ -717,7 +716,7 @@ return r
 
 
 async  getGainsFromTodaysPaymentsPayed() {
-      const r = await window.sqlite.query(`SELECT  SUM(gains) AS todayGains  FROM payments WHERE payment_date=DATE('now')  AND  state='payed'`)
+      const r = await window.sqlite.query(`SELECT  SUM(gains) AS todayGains  FROM payments WHERE payment_date=DATE('now','localtime')  AND  state='payed'`)
   
       //console.log(r)
       return r[0].todayGains
@@ -737,7 +736,7 @@ async  getTodaylTotalPayments() {
 async  getAmountSumFromTodaysPaymentsPayed() {
 
 
-    const r = await window.sqlite.query(`SELECT  SUM(amount) AS todayTotalGains  FROM payments WHERE payment_date=DATE('now')  AND  state='payed'`)
+    const r = await window.sqlite.query(`SELECT  SUM(amount) AS todayTotalGains  FROM payments WHERE payment_date=DATE('now','localtime')  AND  state='payed'`)
 
     //console.log(r)
     return r[0].todayTotalGains
@@ -792,7 +791,7 @@ async  getAmountSumFromTodaysPaymentsPayed() {
     payments.amount, 
     payments.state,
     payments.gains,
-    loans.id, 
+    loans.id as loan_id, 
     loans.amount as loanAmount, 
     loans.client_id, 
     clients.id, 
@@ -806,7 +805,7 @@ async  getAmountSumFromTodaysPaymentsPayed() {
     FROM payments
     INNER JOIN loans ON payments.loan_id = loans.id
     INNER JOIN clients ON loans.client_id = clients.id
-    WHERE payment_date = DATE('now')
+    WHERE payment_date = DATE('now','localtime')
     AND clients.nickname LIKE '%${search}%'
     ORDER BY payments.id DESC
     LIMIT ${limit}

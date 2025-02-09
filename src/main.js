@@ -7,6 +7,11 @@ import {passwordHash,compareHash,generateToken} from "./api/api.js";
 if (started) {
   app.quit();
 }
+/* 
+ import {updateElectronApp} from "update-electron-app"
+//const { updateElectronApp } = require('update-electron-app');
+updateElectronApp(); // additional configuration options available
+  */
 
 const createWindow = () => {
   // Create the browser window.
@@ -79,7 +84,7 @@ ipcMain.handle('db-query', async (_, query, params = []) => {
         }
       });
     }else{
-      console.log("asdasd")
+     // console.log("asdasd")
       db.run(query, params, (err, result) => {
         if (err) {
           console.error('Error en la consulta SQL:', err.message);

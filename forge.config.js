@@ -9,20 +9,25 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        authors: 'george de la selva',
+        description: 'prestamos app '
+      },
     },
+   
+   
+  ],
+  publishers: [
     {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'LazyMonkyCode',
+          name: 'prestamos'
+        },
+        prerelease: true
+      }
+    }
   ],
   plugins: [
     {
