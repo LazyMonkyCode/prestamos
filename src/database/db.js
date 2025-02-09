@@ -15,14 +15,14 @@ sqlite3.verbose()
       }})
 
     console.log("database connected")
-    db.exec("ALTER TABLE tags ADD COLUMN class TEXT DEFAULT 'bg-primary';")
+    //db.exec("ALTER TABLE tags ADD COLUMN class TEXT DEFAULT 'bg-primary';")
 
     db.exec(`CREATE TABLE IF NOT EXISTS  information (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
       label TEXT ,
       user_id INTEGER,
       client_id INTEGER,
       FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE
-      FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       )`)
 
    /*     db.exec("ALTER TABLE loans ADD COLUMN payment_gen_date DATE;")

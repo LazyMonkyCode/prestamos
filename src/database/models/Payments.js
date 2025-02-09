@@ -456,7 +456,7 @@ async setExpiredPayments(){
   const end = getSunday(new Date())
 
   const query = `UPDATE payments SET state='expired'
-  WHERE payment_date < DATE('now') AND payed_date IS NULL  AND (state = 'pending' OR state = 'incomplete')
+  WHERE payment_date < DATE('now','localtime') AND payed_date IS NULL  AND (state = 'pending' OR state = 'incomplete')
    
   
   `
@@ -717,7 +717,7 @@ return r
 
 
 async  getGainsFromTodaysPaymentsPayed() {
-      const r = await window.sqlite.query(`SELECT  SUM(gains) AS todayGains  FROM payments WHERE payment_date=DATE('now')  AND  state='payed'`)
+      const r = await window.sqlite.query(`SELECT  SUM(gains) AS todayGains  FROM payments WHERE payment_date=DATE('now','localtime')  AND  state='payed'`)
   
       //console.log(r)
       return r[0].todayGains
@@ -737,7 +737,7 @@ async  getTodaylTotalPayments() {
 async  getAmountSumFromTodaysPaymentsPayed() {
 
 
-    const r = await window.sqlite.query(`SELECT  SUM(amount) AS todayTotalGains  FROM payments WHERE payment_date=DATE('now')  AND  state='payed'`)
+    const r = await window.sqlite.query(`SELECT  SUM(amount) AS todayTotalGains  FROM payments WHERE payment_date=DATE('now','localtime')  AND  state='payed'`)
 
     //console.log(r)
     return r[0].todayTotalGains
@@ -768,7 +768,7 @@ async  getAmountSumFromTodaysPaymentsPayed() {
 
      const r =  await window.sqlite.query(`
         
-        SELECT  SUM(amount) AS ganacia_total_hoy  FROM payments WHERE payment_date=DATE('now') 
+        SELECT  SUM(amount) AS ganacia_total_hoy  FROM payments WHERE payment_date=DATE('now','localtime') 
         
     `)
     //console.log(r)
@@ -801,12 +801,12 @@ async  getAmountSumFromTodaysPaymentsPayed() {
      FROM payments 
      INNER JOIN loans ON payments.loan_id = loans.id 
      INNER JOIN clients ON loans.client_id = clients.id
-     WHERE payment_date = DATE('now') 
+     WHERE payment_date = DATE('now','localtime') 
      AND clients.nickname LIKE '%${search}%') AS totalResults
     FROM payments
     INNER JOIN loans ON payments.loan_id = loans.id
     INNER JOIN clients ON loans.client_id = clients.id
-    WHERE payment_date = DATE('now')
+    WHERE payment_date = DATE('now','localtime')
     AND clients.nickname LIKE '%${search}%'
     ORDER BY payments.id DESC
     LIMIT ${limit}
