@@ -318,6 +318,7 @@ async  getClientLoans(id,filter){
 
       ;`);
 
+      console.log(r)
 
     const totalResults  = await window.sqlite.query(`SELECT 
       count(id) as total FROM loans  WHERE client_id='${id}'  ${filter.state ? ` AND loans.state='${filter.state}'`: ''}`)

@@ -2,15 +2,15 @@ import React, { createContext, useContext, useEffect ,useState} from 'react';
 import CardDataStats from '../../components/CardDataStats.jsx';
 
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb.jsx';
-import ClientList from './ClientList.jsx';
+
 import Pagination from "../../components/Pagination";
-import {AddClientModal} from "./AddClientModal.jsx"
+import {AddClientModal} from "./components/AddClientModal.jsx"
 import clientsModel from '../../database/models/Clients.js';
 import Select from '../../components/Forms/SelectGroup/Select.jsx';
 import { DebtorIcon, Payment10, PersonMinus } from '../../components/Icons.jsx';
-
+import ClientList from './components/ClientList.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { add ,edit,remove} from '../../redux/clients'
+import { setClients} from '../../redux/clients'
 
 
 const Clients= () => {
@@ -25,6 +25,7 @@ const Clients= () => {
   const [debtors,setDebtors]= useState(0)
   const [incomplete,setIncomplete]= useState(0)
   const [totalResults, setTotalResults] = useState(0)
+  
   const clients = useSelector((state) => state.clients);
   const dispatch = useDispatch();
 
@@ -35,9 +36,23 @@ const Clients= () => {
 
       const debtorsQuery = await clientsModel.getClientsDebtors()
 
-      console.log(debtorsQuery[0].expired_clients_count)
+/*       console.log(await window.sqlite.query(`SELECT *
+ FROM payments
+ WHERE loan_id NOT IN (SELECT id FROM loans WHERE client_id IS NOT NULL);
+        `))
+      
+        console.log(await window.sqlite.query(`DELETE FROM payments WHERE loan_id NOT IN
+  (SELECT id FROM loans WHERE client_id IS NOT NULL);`))
+        
+      await window.sqlite.query(`DELETE FROM payments
+WHERE loan_id NOT IN (SELECT id FROM loans);`)
+ */
+      console.log(debtorsQuery)
+
       setDebtors(debtorsQuery[0].expired_clients_count)
+
       setIncomplete(debtorsQuery[0].incomplete_clients_count)
+
       const result  =await clientsModel.getClients({
         nickname:search,
         state:filter
@@ -45,14 +60,13 @@ const Clients= () => {
       
       setTotalResults(await clientsModel.getTotalClients())
       
-       setClients(result.clients)
+      dispatch(setClients(result.clients))
 
-      // console.log(clients)
-      
+      console.log(result)
       let totalRows =result.total
       
       setTotalClients(totalRows)
-     // console.log(totalClients)
+ 
       if(search.length > 0){
         totalRows = result.length
       }
@@ -69,16 +83,16 @@ const Clients= () => {
     
     fetchData()
      
-  },[limit,page,search,totalClients,filter])
+  },[limit,page,search,filter])
 
   function changePage(page){
     setPage(page)
   }
 
-  async function addClient(client) {
-    setClients((prev)=>[client,...prev])
+/*   async function addClient(client) {
+    add((prev)=>[client,...prev])
     setTotalClients((prev)=>totalClients+1)
-  }
+  } */
 
   return (
     <>
@@ -118,7 +132,7 @@ const Clients= () => {
 
     
   
-      <AddClientModal addClient={addClient} ></AddClientModal>
+      <AddClientModal  ></AddClientModal>
 
 
         <div className='mt-4 grid grid-cols-1  bg-white p-5'>
@@ -137,50 +151,6 @@ const Clients= () => {
               />
             </div>
 
-            <div>
-              <Select className=""
-                onChange={async (e) => setFilter(e.target.value)}
-                options={[{
-                  label: "filtro Prestamos",
-                  value: "",
-                  selected: true
-                },
-                {
-
-                  label: "Sin prestamos",
-                  value: "expired",
-                  selected: false
-                },
-
-                {
-
-                  label: "activos",
-                  value: "incomplete",
-                  selected: false
-                },
-
-                {
-
-                  label: "completados",
-                  value: "incomplete",
-                  selected: false
-                },
-
-                {
-
-                  label: "cancelados",
-                  value: "incomplete",
-                  selected: false
-                },
-
-                
-
-
-                ]}>
-
-              </Select>
-
-            </div>
             <div>
               <Select className=""
                 onChange={async (e) => setFilter(e.target.value)}
@@ -212,22 +182,22 @@ const Clients= () => {
 
             </div>
 
-            <Pagination currentPage={page} totalPages={totalPages} changePage={changePage}></Pagination>
-
+         
           </div>
 
 
         </div>
       
-      <div className="mt-4 grid grid-cols-1 gap-1 bg-white p-5">
+      <div className="mt-4 grid grid-cols-1 gap-1  p-5">
 
 
+      <Pagination currentPage={page} totalPages={totalPages} changePage={changePage}></Pagination>
 
       <div className="grid grid-cols-2 xs:grid-cols-1 mb-5">
 
       
 
-      
+     
       {/* <div className='col-span-2'>
          
             <select multiple>

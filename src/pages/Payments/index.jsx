@@ -6,9 +6,9 @@ import ChartTwo from '../../components/Charts/ChartTwo';
 import ChatCard from '../../components/Chat/ChatCard';
 import MapOne from '../../components/Maps/MapOne';
 import TableOne from '../../components/Tables/TableOne'; */
-import { LoanCard } from '../Loans/index.jsx';
-import PaymentList from '../../components/PaymentList.jsx';
-import { PaymentCard } from '../../components/PaymentList.jsx';
+import { LoanCard } from '../Loans/components/LoansList.jsx';
+import PaymentList from './components/PaymentList.jsx';
+import { PaymentCard } from './components/PaymentList.jsx';
 import paymentsModel from '../../database/models/Payments.js';
 import {MoneyBag} from "../../components/Icons.jsx"
 
@@ -124,7 +124,7 @@ const Payments= () => {
 
       <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 ">
       
-        <PaymentList payments={payments}></PaymentList>
+        <PaymentList ></PaymentList>
   
   
       </div>

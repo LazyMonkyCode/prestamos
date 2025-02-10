@@ -429,6 +429,7 @@ async getWeeksPaymentsState(state,dates){
   p.id as payment_id,
    p.label as label,
    p.amount as monto,
+   p.state,
     strftime('%Y-%m-%d', p.payment_date) AS payment_day,  -- Formato de la fecha (año-mes-día)
     c.nickname AS client_name,  -- Concatenar nombre y apellido del cliente
     COUNT(*) AS total_expired,  -- Cuenta cuántas cuotas vencidas hay en ese día
@@ -472,6 +473,7 @@ async getWeekPendingPayments(){
   p.id as payment_id,
    p.label as label,
    p.amount as monto,
+   p.state,
     strftime('%Y-%m-%d', p.payment_date) AS payment_day,  -- Formato de la fecha (año-mes-día)
     c.nickname AS client_name,  -- Concatenar nombre y apellido del cliente
     COUNT(*) AS total_expired,  -- Cuenta cuántas cuotas vencidas hay en ese día

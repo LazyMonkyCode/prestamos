@@ -1,11 +1,11 @@
 import React,{useState,useEffect,useRef} from "react";
 
-import Modal from "../../components/Modal/Modal";
-
-import clientsModel from "../../database/models/Clients";
+import Modal from "../../../components/Modal/Modal";
+import clientsModel from "../../../database/models/Clients";
 
 
 const GuidedModal = ({updateState,lastId}) => {
+
     const [isOpen, setIsOpen] = useState(false);
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
@@ -205,14 +205,17 @@ const GuidedModal = ({updateState,lastId}) => {
   };
   
 
-import {GuidedForm,StepForm,useGuide} from "../../components/GuidedForm/GuidedForm"
+import {GuidedForm,StepForm,useGuide} from "../../../components/GuidedForm/GuidedForm"
+import { useDispatch, useSelector } from 'react-redux';
+import { add} from '../../../redux/clients'
 
-export function AddClientModal({addClient}) {
+export function AddClientModal() {
 
+  
  
   return (
     <Modal buttonLabel={"agregar"} button={true} title={"Agregar Cliente"}>
-        <GuidedForm updateState={addClient}
+        <GuidedForm updateState={add}
          initState={
          {
           nickname:{
@@ -380,9 +383,13 @@ export function AddClientModal({addClient}) {
 }
 
 
-import { useModal } from "../../components/Modal/Modal";
+import { useModal } from "../../../components/Modal/Modal";
 
 function Step2() {
+
+
+
+  const dispatch = useDispatch(); 
 
   const {toggleModal}= useModal()
 
@@ -437,7 +444,7 @@ function Step2() {
 
             const lastId = await clientsModel.getClientLastId()
             
-            console.log({
+           /*  console.log({
               id:lastId[0].id,
               nickname:formData.nickname.value,
               name:formData.name.value,
@@ -448,11 +455,10 @@ function Step2() {
                  
             
 
-          })
+          }) */
             
           
-          updateState((prev)=>[
-              {
+          dispatch(add({
                   id:lastId[0].id,
                   nickname:formData.nickname.value,
                   name:formData.name.value,
@@ -460,12 +466,7 @@ function Step2() {
                   email:formData.email.value,
                   address:formData.address.value,
                   phonenumber:formData.phonenumber.value
-                     
-                
-
-              },
-              ...prev
-            ])
+                }));
             toggleModal()
           }}>
             terminar

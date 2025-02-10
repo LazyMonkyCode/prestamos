@@ -99,7 +99,7 @@ const PanelWithPagination = () => {
              ? "bg-blue-500 text-white"
              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
          }`}
-         onClick={() => changePage(1)}
+         onClick={() => changePage(totalPages-1)}
        >
          {totalPages-1}
        </button>
@@ -110,7 +110,7 @@ const PanelWithPagination = () => {
              ? "bg-blue-500 text-white"
              : "bg-gray-200 text-gray-700 hover:bg-gray-300"
          }`}
-         onClick={() => changePage(2)}
+         onClick={() => changePage(totalPages)}
        >
          {totalPages}
        </button>

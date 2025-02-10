@@ -7,22 +7,33 @@ import Select from '../../../components/Forms/SelectGroup/Select'
 
 import { useClient } from '../../../context/ClientContext'
 
-function EditLoanModal({loan,button}) {
+
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setLoans,edit} from '../../../redux/loans'
+
+
+function EditLoanModal({button}) {
  
+
+
   return (
     
     <Modal title={"Editar Prestamo"} button={button}>
 
-       <EditLoanForm loan={loan}></EditLoanForm>
+       <EditLoanForm ></EditLoanForm>
     </Modal>
   )
 }
 
 
 
-function  EditLoanForm({loan}){
+function  EditLoanForm(){
 
     
+    const loan = useSelector((state) => state.loan);
+    const dispatch = useDispatch()
+   // console.log(loan)
     const {
         label,
         payment_interval:interval,
@@ -37,7 +48,7 @@ function  EditLoanForm({loan}){
 
    // console.log(id)
     
-    const {loans,setLoans} = useClient()
+   // const {loans,setLoans} = useClient()
   // console.log(payment)
  // console.log(loan)
 
@@ -302,9 +313,9 @@ function  EditLoanForm({loan}){
 
                         showNotification()
                        
-                        if(loans!=null){
-                            setLoans((prev)=>prev.map((p)=>p.id==loan.id ? {
-                                ...p,
+                        
+                            dispatch(edit(loan.id ,{
+                                ...loan,
                                 amount:formData.amount.value,
                                 state:formData.state.value,
                                 installments:formData.installments.value,
@@ -312,8 +323,8 @@ function  EditLoanForm({loan}){
                                 aproved_date:formData.date.value,
                                 label:formData.label.value,
                                 interes_percentage:formData.interes.value,
-                            } : p))
-                        }
+                            } ))
+                        
                        
 
                          

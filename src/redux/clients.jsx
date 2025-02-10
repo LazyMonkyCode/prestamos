@@ -7,6 +7,12 @@ const clientsSlice = createSlice({
   name: 'clients',
   initialState,
   reducers: {
+    setClients: (state,action) =>{
+      console.log()
+      console.log(action)
+      return action.payload
+    }
+  ,
     add: (state,action) => {
       
         return [
@@ -26,6 +32,6 @@ const clientsSlice = createSlice({
   },
 });
 
-export const { add ,remove,edit} = clientsSlice.actions;
+export const { add ,remove,edit,setClients} = clientsSlice.actions;
 
 export default clientsSlice.reducer;

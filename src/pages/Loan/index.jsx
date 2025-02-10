@@ -17,7 +17,7 @@ import Pagination from '../../components/Pagination';
 import Select from '../../components/Forms/SelectGroup/Select';
 
 import { Link } from 'react-router-dom';
-import EditLoanModal from '../../Clients/Client/components/EditLoanModal';
+//import EditLoanModal from '../../Clients/Client/components/EditLoanModal';
 import DropdownDefault from '../../components/Dropdowns/DropdownDefault';
 import ClientContextProvider from "../../context/ClientContext"
 import paymentsModel from '../../database/models/Payments';

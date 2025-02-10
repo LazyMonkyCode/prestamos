@@ -48,12 +48,12 @@ const Calendar = () => {
 
          
 
-         setNotification({
+         /* setNotification({
           type:"success",
           message:"Pagado con exito"
          })
 
-         showNotification() 
+         showNotification()  */
 
          
          setEvents(setDataStateEvents(r))

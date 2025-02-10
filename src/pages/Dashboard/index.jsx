@@ -22,13 +22,13 @@ import clientsModel from '../../database/models/Clients.js';
 
 const Dashboard = () => {
 
-  const [loans,setLoans] = useState([])
   const [totalLoans,setTotalLoans] = useState(0)
-  const [payments,setPayments] = useState([])
   const [monthly,setMonthly] = useState(0)
   const [loansTotalAmount, setloansTotalAmount] = useState(0)
- const [paymentsTotalAmount, setpaymentsTotalAmount] = useState(0)
-  useEffect(() => {
+  const [paymentsTotalAmount, setpaymentsTotalAmount] = useState(0)
+  
+ 
+ useEffect(() => {
     
     async function init() {
 
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
      console.log(loansTotalAmount)
       await paymentsModel.setExpiredPayments()
-     
+/*      
  await window.sqlite.query(`  DELETE FROM loans
 WHERE client_id NOT IN (
     SELECT id
@@ -55,7 +55,7 @@ WHERE client_id NOT IN (
             SELECT 1
             FROM loans
             WHERE loans.id = payments.loan_id
-        );`)
+        );`) */
     //  console.log(await paymentsModel.getWeekPayments())
 
       
@@ -105,9 +105,7 @@ WHERE client_id NOT IN (
 
   return (
     <>
-    <DashContextProvider value={{
-      setPayments,
-    }}>
+   
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats title="Total de Prestamos" total={totalLoans} rate="0.0" levelUp>
           <WalletIcon></WalletIcon>
@@ -145,7 +143,7 @@ WHERE client_id NOT IN (
         </div> */}
         {/* <ChatCard /> */}
       </div>
-      </DashContextProvider>
+  
     </>
   );
 };

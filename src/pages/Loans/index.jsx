@@ -138,6 +138,6 @@ const Loans= () => {
 
 /* <LoanCard amount={30000.00} interestRate={30}  term={3} id={} > 
           
-
+*/
 
 export default Loans;

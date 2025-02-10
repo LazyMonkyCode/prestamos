@@ -7,11 +7,11 @@ import SignIn from './pages/Authentication/SignIn.jsx';
 import SignUp from './pages/Authentication/SignUp';
 import Dashboard from './pages/Dashboard/index.jsx';
  import Clients from './pages/Clients/index.jsx';
- import Client from "./pages/Clients/Client/index.jsx"
+ import Client from "./pages/Client/index.jsx"
 import Loans from './pages/Loans/index.jsx';
 import Payments from './pages/Payments/index.jsx';
 import Calendar from './pages/Calendar/index.jsx';
-import Loan from './pages/Loans/Loan/index.jsx';
+import Loan from './pages/Loan/index.jsx';
 import Payment from './pages/Payments/Payment/index.jsx'; 
 /*import Calendar from './pages/Calendar';
 import Chart from './pages/Chart';
