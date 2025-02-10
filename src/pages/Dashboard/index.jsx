@@ -46,7 +46,7 @@ const Dashboard = () => {
       await paymentsModel.setExpiredPayments()
       
 
- await window.sqlite.query(`  DELETE FROM loans
+ /* await window.sqlite.query(`  DELETE FROM loans
 WHERE client_id NOT IN (
     SELECT id
     FROM clients
@@ -57,7 +57,7 @@ WHERE client_id NOT IN (
             SELECT 1
             FROM loans
             WHERE loans.id = payments.loan_id
-        );`)
+        );`) */
     //  console.log(await paymentsModel.getWeekPayments())
 
       
