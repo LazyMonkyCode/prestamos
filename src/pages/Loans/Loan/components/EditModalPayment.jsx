@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react'
 import Modal from '../../../../components/Modal/Modal'
 import paymentsModel from '../../../../database/models/Payments'
 function EditModalPayment({payment,button}) {
-  // console.log(payment)
+  // console.log(payment)P
   
   return (
     
@@ -187,7 +187,7 @@ function  EditPaymentForm({payment,button}){
                     paymentsModel.editPayment(
                         payment.id,{
                         amount:formData.amount.value,
-                        date:formData.date.value,
+                        payment_date:formData.date.value,
                         label:formData.label.value,
                         state:formData.state.value,
                         notes:"",
